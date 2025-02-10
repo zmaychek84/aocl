@@ -1,0 +1,141 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "lp64",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_ILP64": "OFF"
+      }
+    },
+    {
+      "name": "ilp64",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_ILP64": "ON"
+      }
+    },
+    {
+      "name": "st",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_MULTITHREADING": "OFF"
+      }
+    },
+    {
+      "name": "mt",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_MULTITHREADING": "ON"
+      }
+    },
+    {
+      "name": "amdzen",
+      "hidden": true,
+      "cacheVariables": {
+        "BLIS_CONFIG_FAMILY": "amdzen"
+      }
+    },
+    {
+      "name": "auto",
+      "hidden": true,
+      "cacheVariables": {
+        "BLIS_CONFIG_FAMILY": "auto"
+      }
+    },
+    {
+      "name": "static",
+      "hidden": true,
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": "OFF"
+      }
+    },
+    {
+      "name": "shared",
+      "hidden": true,
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": "ON"
+      }
+    },
+    {
+      "name": "complex-return-intel",
+      "hidden": true,
+      "cacheVariables": {
+        "COMPLEX_RETURN": "intel"
+      }
+    },
+    {
+      "name": "complex-return-gnu",
+      "hidden": true,
+      "cacheVariables": {
+        "COMPLEX_RETURN": "gnu"
+      }
+    },
+    {
+      "name": "enable_trsm_preinversion",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_TRSM_PREINVERSION": "ON"
+      }
+    },
+    {
+      "name": "disable_trsm_preinversion",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_TRSM_PREINVERSION": "OFF"
+      }
+    },
+    {
+      "name": "enable_amd_flags",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_AMD_FLAGS": "ON"
+      }
+    },
+    {
+      "name": "enable_amd_aocc_flags",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_AMD_AOCC_FLAGS": "ON"
+      }
+    },
+    {
+      "name": "enable_blas_ext_gemmt",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_BLAS_EXT_GEMMT": "ON"
+      }
+    },
+    {
+      "name": "disable_blas_ext_gemmt",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_BLAS_EXT_GEMMT": "OFF"
+      }
+    },
+    {
+      "name": "enable_aocl_blas",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_AOCL_BLAS": "ON"
+      }
+    },
+    {
+      "name": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_CBLAS": "ON"
+      },
+      "binaryDir": "${sourceDir}/build"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "base",
+      "configurePreset": "base",
+      "targets": "install",
+      "configuration": "Release",
+      "jobs": 0
+    }
+  ]
+}

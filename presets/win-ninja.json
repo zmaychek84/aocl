@@ -1,0 +1,222 @@
+{
+    "version": 6,
+    "include": [
+        "base.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "win-ninja",
+            "inherits": "base",
+            "hidden": true,
+            "cacheVariables": {
+              "ENABLE_AOCL_UTILS": "ON",
+              "ENABLE_AOCL_BLAS": "ON",
+              "ENABLE_AOCL_LAPACK": "ON",
+              "CMAKE_CONFIGURATION_TYPES": "Release",
+              "CMAKE_INSTALL_PREFIX": "${sourceDir}/install_package",
+              "CMAKE_BUILD_TYPE": "Release",
+              "CMAKE_C_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe",
+              "CMAKE_CXX_COMPILER": "C:/Program Files/LLVM/bin/clang-cl.exe",
+              "OpenMP_libomp_LIBRARY": "$env{oneAPI_ROOT}/compiler/latest/lib/libiomp5md.lib"
+            },
+            "generator": "Ninja",
+            "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Windows"
+            }
+          },
+          {
+            "name": "aocl-win-ninja-mt-ilp-nopreinv-nogemmt-config",
+            "inherits": ["win-ninja", "mt", "ilp64", "shared", "complex-return-intel", "disable_trsm_preinversion", "enable_amd_flags", "disable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-ninja-mt-lp-preinv-gemmt-config",
+            "inherits": ["win-ninja", "mt", "lp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-ninja-mt-ilp-preinv-gemmt-config",
+            "inherits": ["win-ninja", "mt", "ilp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-ninja-mt-lp-nopreinv-gemmt-config",
+            "inherits": ["win-ninja", "mt", "lp64", "shared", "complex-return-intel", "disable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-ninja-lp-ga-config",
+            "inherits": ["win-ninja", "mt", "lp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-ninja-ilp-ga-config",
+            "inherits": ["win-ninja", "mt", "ilp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}"
+            },
+            "hidden": false
+          }
+    ],
+    "buildPresets": [
+    {
+        "name": "aocl-win-ninja-mt-ilp-nopreinv-nogemmt-build",
+        "configurePreset": "aocl-win-ninja-mt-ilp-nopreinv-nogemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-ninja-mt-lp-preinv-gemmt-build",
+        "configurePreset": "aocl-win-ninja-mt-lp-preinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-ninja-mt-ilp-preinv-gemmt-build",
+        "configurePreset": "aocl-win-ninja-mt-ilp-preinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-ninja-mt-lp-nopreinv-gemmt-build",
+        "configurePreset": "aocl-win-ninja-mt-lp-nopreinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-ninja-lp-ga-build",
+        "configurePreset": "aocl-win-ninja-lp-ga-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-ninja-ilp-ga-build",
+        "configurePreset": "aocl-win-ninja-ilp-ga-config",
+        "inherits": "base"
+      }
+    ],
+    "workflowPresets": [
+        {
+            "name": "aocl-win-ninja-mt-ilp-nopreinv-nogemmt",
+            "description": "Build aocl library for multi-threaded ilp64 disable_trsm_preinversion disable_external_gemmt enable_amd_flags configuration on Windows using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-ninja-mt-ilp-nopreinv-nogemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-ninja-mt-ilp-nopreinv-nogemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-ninja-mt-lp-preinv-gemmt",
+            "description": "Build aocl library for multi-threaded lp64 enable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Windows using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-ninja-mt-lp-preinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-ninja-mt-lp-preinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-ninja-mt-ilp-preinv-gemmt",
+            "description": "Build aocl library for multi-threaded ilp64 enable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Windows using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-ninja-mt-ilp-preinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-ninja-mt-ilp-preinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-ninja-mt-lp-nopreinv-gemmt",
+            "description": "Build aocl library for multi-threaded ilp64 disable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Windows using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-ninja-mt-lp-nopreinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-ninja-mt-lp-nopreinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-ninja-lp-ga",
+            "description": "AOCL GA Release configurations using LLVM and Ninja generator for LP64 on Windows",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-ninja-lp-ga-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-ninja-lp-ga-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-ninja-ilp-ga",
+            "description": "AOCL GA Release configurations using LLVM and Ninja generator for ILP64 on Windows",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-ninja-ilp-ga-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-ninja-ilp-ga-build"
+              }
+            ]
+          }
+    ]
+}

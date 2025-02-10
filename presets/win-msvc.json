@@ -1,0 +1,221 @@
+{
+    "version": 6,
+    "include": [
+        "base.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "win-msvc",
+            "inherits": "base",
+            "hidden": true,
+            "cacheVariables": {
+              "ENABLE_AOCL_UTILS": "ON",
+              "ENABLE_AOCL_BLAS": "ON",
+              "ENABLE_AOCL_LAPACK": "ON",
+              "CMAKE_INSTALL_PREFIX": "${sourceDir}/install_package",
+              "CMAKE_CONFIGURATION_TYPES": "Release",
+              "CMAKE_BUILD_TYPE": "Release",
+              "OpenMP_libomp_LIBRARY": "$env{oneAPI_ROOT}/compiler/latest/lib/libiomp5md.lib"
+            },
+            "generator": "Visual Studio 17 2022",
+            "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Windows"
+            },
+            "toolset": "ClangCl"
+          },
+          {
+            "name": "aocl-win-msvc-mt-ilp-nopreinv-nogemmt-config",
+            "inherits": ["win-msvc", "mt", "ilp64", "shared", "complex-return-intel", "disable_trsm_preinversion", "enable_amd_flags", "disable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-msvc-mt-lp-preinv-gemmt-config",
+            "inherits": ["win-msvc", "mt", "lp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-msvc-mt-ilp-preinv-gemmt-config",
+            "inherits": ["win-msvc", "mt", "ilp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-msvc-mt-lp-nopreinv-gemmt-config",
+            "inherits": ["win-msvc", "mt", "lp64", "shared", "complex-return-intel", "disable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-msvc-lp-ga-config",
+            "inherits": ["win-msvc", "mt", "lp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-win-msvc-ilp-ga-config",
+            "inherits": ["win-msvc", "mt", "ilp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}"
+            },
+            "hidden": false
+          }
+    ],
+    "buildPresets": [
+    {
+        "name": "aocl-win-msvc-mt-ilp-nopreinv-nogemmt-build",
+        "configurePreset": "aocl-win-msvc-mt-ilp-nopreinv-nogemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-msvc-mt-lp-preinv-gemmt-build",
+        "configurePreset": "aocl-win-msvc-mt-lp-preinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-msvc-mt-ilp-preinv-gemmt-build",
+        "configurePreset": "aocl-win-msvc-mt-ilp-preinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-msvc-mt-lp-nopreinv-gemmt-build",
+        "configurePreset": "aocl-win-msvc-mt-lp-nopreinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-msvc-lp-ga-build",
+        "configurePreset": "aocl-win-msvc-lp-ga-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-win-msvc-ilp-ga-build",
+        "configurePreset": "aocl-win-msvc-ilp-ga-config",
+        "inherits": "base"
+      }
+    ],
+    "workflowPresets": [
+        {
+            "name": "aocl-win-msvc-mt-ilp-nopreinv-nogemmt",
+            "description": "Build aocl library for multi-threaded ilp64 disable_trsm_preinversion disable_external_gemmt enable_amd_flags configuration on Windows using Visual Studio generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-msvc-mt-ilp-nopreinv-nogemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-msvc-mt-ilp-nopreinv-nogemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-msvc-mt-lp-preinv-gemmt",
+            "description": "Build aocl library for multi-threaded lp64 enable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Windows using Visual Studio generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-msvc-mt-lp-preinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-msvc-mt-lp-preinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-msvc-mt-ilp-preinv-gemmt",
+            "description": "Build aocl library for multi-threaded ilp64 enable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Windows using Visual Studio generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-msvc-mt-ilp-preinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-msvc-mt-ilp-preinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-msvc-mt-lp-nopreinv-gemmt",
+            "description": "Build aocl library for multi-threaded ilp64 disable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Windows using Visual Studio generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-msvc-mt-lp-nopreinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-msvc-mt-lp-nopreinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-msvc-lp-ga",
+            "description": "AOCL GA Release configurations using LLVM and Visual Studio generator for LP64 on Windows",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-msvc-lp-ga-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-msvc-lp-ga-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-win-msvc-ilp-ga",
+            "description": "AOCL GA Release configurations using LLVM and Visual Studio generator for ILP64 on Windows",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-win-msvc-ilp-ga-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-win-msvc-ilp-ga-build"
+              }
+            ]
+          }
+    ]
+}

@@ -1,0 +1,370 @@
+{
+    "version": 6,
+    "include": [
+        "base.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "linux-ninja",
+            "inherits": "base",
+            "hidden": true,
+            "cacheVariables": {
+              "CMAKE_CONFIGURATION_TYPES": "Release",
+              "CMAKE_INSTALL_PREFIX": "${sourceDir}/install_package",
+              "CMAKE_BUILD_TYPE": "Release"
+            },
+            "generator": "Ninja",
+            "condition": {
+              "type": "notEquals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Windows"
+            }
+          },
+          {
+            "name": "aocl-linux-ninja-mt-ilp-nopreinv-nogemmt-config",
+            "inherits": ["linux-ninja", "mt", "ilp64", "shared", "complex-return-intel", "disable_trsm_preinversion", "enable_amd_aocc_flags", "disable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "OpenMP_libomp_LIBRARY": "$env{ONEAPI_ROOT}/compiler/latest/lib/libiomp5.so",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-config",
+            "inherits": ["linux-ninja", "mt", "lp64", "shared", "complex-return-gnu", "enable_amd_flags", "enable_trsm_preinversion", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "OpenMP_libomp_LIBRARY": "$env{ONEAPI_ROOT}/compiler/latest/lib/libiomp5.so",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-config",
+            "inherits": ["linux-ninja", "mt", "lp64", "shared", "complex-return-intel", "enable_amd_aocc_flags", "enable_trsm_preinversion", "enable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "OpenMP_libomp_LIBRARY": "$env{ONEAPI_ROOT}/compiler/latest/lib/libiomp5.so",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-nopreinv-gemmt-config",
+            "inherits": ["linux-ninja", "mt", "lp64", "shared", "complex-return-intel", "enable_amd_aocc_flags", "disable_trsm_preinversion", "enable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "OpenMP_libomp_LIBRARY": "$env{ONEAPI_ROOT}/compiler/latest/lib/libiomp5.so",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-aocc-config",
+            "inherits": ["linux-ninja", "mt", "lp64", "shared", "complex-return-intel", "enable_amd_aocc_flags", "enable_trsm_preinversion", "enable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "OpenMP_libomp_LIBRARY": "$env{ONEAPI_ROOT}/compiler/latest/lib/libiomp5.so",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-mt-ilp-preinv-gemmt-return-intel-aocc-config",
+            "inherits": ["linux-ninja", "mt", "ilp64", "shared", "complex-return-intel", "enable_amd_aocc_flags", "enable_trsm_preinversion", "enable_blas_ext_gemmt"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "OpenMP_libomp_LIBRARY": "$env{ONEAPI_ROOT}/compiler/latest/lib/libiomp5.so",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-lp-ga-aocc-config",
+            "inherits": ["linux-ninja", "mt", "lp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_aocc_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-ilp-ga-aocc-config",
+            "inherits": ["linux-ninja", "mt", "ilp64", "shared", "complex-return-intel", "enable_trsm_preinversion", "enable_amd_aocc_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-lp-ga-gcc-config",
+            "inherits": ["linux-ninja", "mt", "lp64", "shared", "complex-return-gnu", "enable_trsm_preinversion", "enable_amd_aocc_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "hidden": false
+          },
+          {
+            "name": "aocl-linux-ninja-ilp-ga-gcc-config",
+            "inherits": ["linux-ninja", "mt", "ilp64", "shared", "complex-return-gnu", "enable_trsm_preinversion", "enable_amd_aocc_flags", "enable_blas_ext_gemmt", "enable_aocl_blas"],
+            "cacheVariables": {
+                "ENABLE_AOCL_UTILS": "ON",
+                "ENABLE_AOCL_BLAS": "ON",
+                "ENABLE_AOCL_LAPACK": "ON",
+                "ENABLE_AOCL_LIBM": "ON",
+                "ENABLE_AOCL_SPARSE": "ON",
+                "ENABLE_AOCL_COMPRESSION": "ON",
+                "ENABLE_AOCL_CRYPTO": "ON",
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "hidden": false
+          }
+    ],
+    "buildPresets": [
+    {
+        "name": "aocl-linux-ninja-mt-ilp-nopreinv-nogemmt-build",
+        "configurePreset": "aocl-linux-ninja-mt-ilp-nopreinv-nogemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-build",
+        "configurePreset": "aocl-linux-ninja-mt-lp-preinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-build",
+        "configurePreset": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-mt-lp-nopreinv-gemmt-build",
+        "configurePreset": "aocl-linux-ninja-mt-lp-nopreinv-gemmt-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-aocc-build",
+        "configurePreset": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-aocc-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-mt-ilp-preinv-gemmt-return-intel-aocc-build",
+        "configurePreset": "aocl-linux-ninja-mt-ilp-preinv-gemmt-return-intel-aocc-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-lp-ga-aocc-build",
+        "configurePreset": "aocl-linux-ninja-lp-ga-aocc-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-ilp-ga-aocc-build",
+        "configurePreset": "aocl-linux-ninja-ilp-ga-aocc-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-lp-ga-gcc-build",
+        "configurePreset": "aocl-linux-ninja-lp-ga-gcc-config",
+        "inherits": "base"
+      },
+      {
+        "name": "aocl-linux-ninja-ilp-ga-gcc-build",
+        "configurePreset": "aocl-linux-ninja-ilp-ga-gcc-config",
+        "inherits": "base"
+      }
+    ],
+    "workflowPresets": [
+        {
+            "name": "aocl-linux-ninja-mt-ilp-nopreinv-nogemmt",
+            "description": "Build aocl library for multi-threaded ilp64 disable_trsm_preinversion disable_external_gemmt enable_amd_aocc_flags configuration on Linux using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-mt-ilp-nopreinv-nogemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-mt-ilp-nopreinv-nogemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-preinv-gemmt",
+            "description": "Build aocl library for multi-threaded lp64 enable_trsm_preinversion enable_external_gemmt enable_amd_flags configuration on Linux using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel",
+            "description": "Build aocl library for multi-threaded lp64 enable_trsm_preinversion enable_external_gemmt enable_amd_aocc_flags complex-return-intel configuration on Linux using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-nopreinv-gemmt",
+            "description": "Build aocl library for multi-threaded lp64 disable_trsm_preinversion enable_external_gemmt enable_amd_aocc_flags complex-return-intel configuration on Linux using Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-mt-lp-nopreinv-gemmt-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-mt-lp-nopreinv-gemmt-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-aocc",
+            "description": "Build aocl library for multi-threaded lp64 enable_trsm_preinversion enable_external_gemmt enable_amd_aocc_flags complex-return-intel configuration on Linux using AOCC and Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-aocc-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-mt-lp-preinv-gemmt-return-intel-aocc-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-mt-ilp-preinv-gemmt-return-intel-aocc",
+            "description": "Build aocl library for multi-threaded ilp64 enable_trsm_preinversion enable_external_gemmt enable_amd_aocc_flags complex-return-intel configuration on Linux using AOCC and Ninja generator",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-mt-ilp-preinv-gemmt-return-intel-aocc-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-mt-ilp-preinv-gemmt-return-intel-aocc-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-lp-ga-aocc",
+            "description": "AOCL GA Release configurations using AOCC and Ninja generator for LP64",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-lp-ga-aocc-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-lp-ga-aocc-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-ilp-ga-aocc",
+            "description": "AOCL GA Release configurations using AOCC and Ninja generator for ILP64",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-ilp-ga-aocc-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-ilp-ga-aocc-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-lp-ga-gcc",
+            "description": "AOCL GA Release configurations using GCC and Ninja generator for LP64",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-lp-ga-gcc-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-lp-ga-gcc-build"
+              }
+            ]
+          },
+          {
+            "name": "aocl-linux-ninja-ilp-ga-gcc",
+            "description": "AOCL GA Release configurations using GCC and Ninja generator for ILP64",
+            "steps": [
+              {
+                "type": "configure",
+                "name": "aocl-linux-ninja-ilp-ga-gcc-config"
+              },
+              {
+                "type": "build",
+                "name": "aocl-linux-ninja-ilp-ga-gcc-build"
+              }
+            ]
+          }
+    ]
+}

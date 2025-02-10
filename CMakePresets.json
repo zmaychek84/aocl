@@ -1,0 +1,14 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "include": [
+    "presets/win-ninja.json",
+    "presets/win-msvc.json",
+    "presets/linux-ninja.json",
+    "presets/linux-make.json"
+  ]
+}
