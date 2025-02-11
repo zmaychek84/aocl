@@ -118,23 +118,33 @@ This command creates:
 ## List of Build Options
 
 ```console
-Build Flags                             Description                  Default         Alternate Values
---------------------------------------------------------------------------------------------------
-BUILD_SHARED_LIBS                       Build using shared libraries ON             OFF
-ENABLE_AOCL_UTILS                       Check if we need to include AOCL-Utils into AOCL unified library ON OFF
-ENABLE_AOCL_BLAS                        Check if we need to include AOCL-BLAS into AOCL unified library OFF ON
-ENABLE_AOCL_LAPACK                      Check if we need to include AOCL-LAPACK into AOCL unified library OFF ON
-ENABLE_AOCL_SPARSE                      Check if we need to include AOCL-Sparse into AOCL unified library OFF ON
-ENABLE_AOCL_CRYPTO                      Check if we need to include AOCL-Crypto into AOCL unified library OFF ON
-ENABLE_AOCL_LIBM                        Check if we need to include AOCL-LibM into AOCL unified library OFF ON
-ENABLE_AOCL_COMPRESSION                 Check if we need to include AOCL-Compression into AOCL unified library OFF ON
-ENABLE_MULTITHREADING                   Check if we need to enable multithreading OFF ON
-ENABLE_CBLAS                            Check if we need to enable AOCL-BLAS CBLAS interface ON OFF
-ENABLE_AMD_FLAGS                        Check if we need to enable amd flags for AOCL-LAPACK library build OFF ON
-ENABLE_AMD_AOCC_FLAGS                   Check if we need to enable amd aocc flags for AOCL-LAPACK library build OFF ON
-ENABLE_TRSM_PREINVERSION                Check if we need to enable trsm preinversion ON OFF
-ENABLE_ILP64                            Check if we need to enable ILP64 OFF ON
-ENABLE_BLAS_EXT_GEMMT                   Check if we need to enable blas external gemmt for AOCL-LAPACK library build ON OFF
+Build Flags                             Description                                             Default         Alternate Values
+--------------------------------------------------------------------------------------------------------------
+BUILD_SHARED_LIBS                       Build using shared libraries                            ON              OFF
+ENABLE_AOCL_UTILS                       Check if we need to include AOCL-Utils into AOCL         ON              OFF
+                                        unified library
+ENABLE_AOCL_BLAS                        Check if we need to include AOCL-BLAS into AOCL          OFF             ON
+                                        unified library
+ENABLE_AOCL_LAPACK                      Check if we need to include AOCL-LAPACK into AOCL        OFF             ON
+                                        unified library
+ENABLE_AOCL_SPARSE                      Check if we need to include AOCL-Sparse into AOCL        OFF             ON
+                                        unified library
+ENABLE_AOCL_CRYPTO                      Check if we need to include AOCL-Crypto into AOCL        OFF             ON
+                                        unified library
+ENABLE_AOCL_LIBM                        Check if we need to include AOCL-LibM into AOCL          OFF             ON
+                                        unified library
+ENABLE_AOCL_COMPRESSION                 Check if we need to include AOCL-Compression into AOCL   OFF             ON
+                                        unified library
+ENABLE_MULTITHREADING                   Check if we need to enable multithreading                OFF             ON
+ENABLE_CBLAS                            Check if we need to enable AOCL-BLAS CBLAS interface     ON              OFF
+ENABLE_AMD_FLAGS                        Check if we need to enable amd flags for AOCL-LAPACK     OFF             ON
+                                        library build
+ENABLE_AMD_AOCC_FLAGS                   Check if we need to enable amd aocc flags for AOCL       OFF             ON
+                                        LAPACK library build
+ENABLE_TRSM_PREINVERSION                Check if we need to enable trsm preinversion             ON              OFF
+ENABLE_ILP64                            Check if we need to enable ILP64                         OFF             ON
+ENABLE_BLAS_EXT_GEMMT                   Check if we need to enable blas external gemmt for       ON              OFF
+                                        AOCL-LAPACK library build
 ```
 
 ## Integration with Other Projects
