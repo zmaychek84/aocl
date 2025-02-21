@@ -2,6 +2,17 @@
 
 #!/bin/bash
 
+# Function to check if the sudo password is correct
+check_sudo_password() {
+    if ! sudo -v; then
+        echo "Incorrect sudo password. Exiting."
+        exit 1
+    fi
+}
+
+# Check sudo password
+check_sudo_password
+
 # Detect the OS
 OS=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
 
@@ -90,7 +101,7 @@ else
 fi
 
 # Install oneAPI HPC Toolkit if not already installed
-if [[ ! -d "/opt/intel/oneapi" ]]; then
+if [[ ! -d "/opt/intel/oneapi" || ! -f "/opt/intel/oneapi/setvars.sh" ]]; then
     if [[ "$OS" == *"Ubuntu"* ]]; then
         sudo apt-get install -y intel-basekit intel-hpckit
     elif [[ "$OS" == *"Red Hat"* || "$OS" == *"CentOS"* ]]; then
