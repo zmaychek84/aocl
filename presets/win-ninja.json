@@ -81,7 +81,8 @@
                 "ENABLE_AOCL_SPARSE": "ON",
                 "ENABLE_AOCL_COMPRESSION": "ON",
                 "ENABLE_AOCL_CRYPTO": "ON",
-                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}"
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}",
+                "ENABLE_ADDON": "aocl_gemm"
             },
             "hidden": false
           },
@@ -96,7 +97,8 @@
                 "ENABLE_AOCL_SPARSE": "ON",
                 "ENABLE_AOCL_COMPRESSION": "ON",
                 "ENABLE_AOCL_CRYPTO": "ON",
-                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}"
+                "OPENSSL_INSTALL_DIR": "$env{OPENSSL_INSTALL_DIR}",
+                "ENABLE_ADDON": "aocl_gemm"
             },
             "hidden": false
           }

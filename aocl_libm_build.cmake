@@ -32,7 +32,7 @@ endif()
 if(LIBM_PATH)
     message(STATUS "Using AOCL-LIBM source code from ${LIBM_PATH}.")
     file(APPEND "${LIBM_BUILD_LOG_FILE_PATH}" "Using AOCL-LIBM source code from ${LIBM_PATH}.\n")
-    string(REPLACE "\\" "/" LIBM_DIR "${LIBM_PATH}/libm")
+    string(REPLACE "\\" "/" LIBM_DIR "${LIBM_PATH}/aocl-libm")
 else()
     execute_process(
         COMMAND git clone ${LIBM_GIT_REPOSITORY} -b ${LIBM_GIT_TAG} aocl-libm

@@ -42,24 +42,20 @@ The project is structured as follows:
 
 ### Dependencies
 
-#### Note
-
-For the CMake workflow presets to use, the required minimum version of CMake is 3.25.0.
-
 #### Windows
 
-- CMake 3.22 or higher
-- Visual Studio 2019 or higher
+- CMake 3.26 or higher
+- Visual Studio 16 2019 or Visual Studio 17 2022
 - Git
 - LLVM (for OpenMP and Clang Compiler tool-chain)
-- OpenSSL
+- OpenSSL (3.1.3 is the minimum supported version, and max is 3.3.0)
 
 #### Linux
 
-- CMake 3.22 or higher
+- CMake 3.26 or higher
 - GCC or Clang
 - Git
-- OpenSSL
+- OpenSSL (3.1.3 is the minimum supported version, and max is 3.3.0)
 
 ### Getting Started
 
@@ -85,6 +81,13 @@ cmake .. -G "Visual Studio 16 2019" -TClangCl
 
 ```console
 git clone https://github.amd.com/AOCL/aocl.git
+cd aocl
+```
+
+or
+
+```console
+git clone git@github.amd.com:AOCL/aocl.git
 cd aocl
 ```
 
