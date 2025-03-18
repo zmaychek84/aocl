@@ -4,48 +4,48 @@
 cmake_policy(SET CMP0010 NEW)
 
 # Define variables for Utils path, repository, and build log file
-set(Utils_PATH "" CACHE STRING "Local path of the AOCL-Utils source code")
-set(Utils_GIT_REPOSITORY "https://github.com/amd/aocl-utils.git" CACHE STRING "AOCL-Utils git repository path")
-set(Utils_GIT_TAG "main" CACHE STRING "Tag or Branch name of AOCL-Utils")
-set(Utils_DIR ${CMAKE_BINARY_DIR}/aocl-utils)
-set(Utils_BUILD_LOG_FILE_PATH "${CMAKE_BINARY_DIR}/aocl_utils_build.log")
+set(UTILS_PATH "" CACHE STRING "Local path of the AOCL-Utils source code")
+set(UTILS_GIT_REPOSITORY "https://github.com/amd/aocl-utils.git" CACHE STRING "AOCL-Utils git repository path")
+set(UTILS_GIT_TAG "main" CACHE STRING "Tag or Branch name of AOCL-Utils")
+set(UTILS_DIR ${CMAKE_BINARY_DIR}/aocl-utils)
+set(UTILS_BUILD_LOG_FILE_PATH "${CMAKE_BINARY_DIR}/aocl_utils_build.log")
 
 # Initialize build log file
-file(WRITE "${Utils_BUILD_LOG_FILE_PATH}" "=========================AOCL-Utils Build Logs=========================.\n")
+file(WRITE "${UTILS_BUILD_LOG_FILE_PATH}" "=========================AOCL-Utils Build Logs=========================.\n")
 
 # Remove existing Utils directory if it exists
-if(EXISTS ${Utils_DIR})
+if(EXISTS ${UTILS_DIR})
     execute_process(
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${Utils_DIR}
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${UTILS_DIR}
     )
 endif()
 
 # Use local Utils source code if provided, otherwise clone from git repository
-if(Utils_PATH)
-    message(STATUS "Using AOCL-Utils source code from ${Utils_PATH}.")
-    file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "Using AOCL-Utils source code from ${Utils_PATH}.\n")
-    string(REPLACE "\\" "/" Utils_DIR "${Utils_PATH}/aocl-utils")
+if(UTILS_PATH)
+    message(STATUS "Using AOCL-Utils source code from ${UTILS_PATH}.")
+    file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "Using AOCL-Utils source code from ${UTILS_PATH}.\n")
+    string(REPLACE "\\" "/" UTILS_DIR "${UTILS_PATH}/aocl-utils")
 else()
     execute_process(
-        COMMAND git clone ${Utils_GIT_REPOSITORY} -b ${Utils_GIT_TAG} aocl-utils
+        COMMAND git clone ${UTILS_GIT_REPOSITORY} -b ${UTILS_GIT_TAG} aocl-utils
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         RESULT_VARIABLE result
         OUTPUT_VARIABLE output
         ERROR_VARIABLE error
     )
     if(result EQUAL 0)
-        file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "${output}.\n")
+        file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "${output}.\n")
     else()
-        file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "${error}.\n")
+        file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "${error}.\n")
     endif()
 endif()
 
 # Log the Utils path
-message(STATUS "Utils_PATH: ${Utils_DIR}.")
-file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "Utils_PATH: ${Utils_DIR}.\n")
+message(STATUS "Utils_PATH: ${UTILS_DIR}.")
+file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "Utils_PATH: ${UTILS_DIR}.\n")
 
 # Log the start of the configuration and build process
-message(STATUS "\"The configuration and build process for the AOCL-Utils library has started, and logs are being redirected to ${Utils_BUILD_LOG_FILE_PATH}\"")
+message(STATUS "\"The configuration and build process for the AOCL-Utils library has started, and logs are being redirected to ${UTILS_BUILD_LOG_FILE_PATH}\"")
 
 # Determine the compiler toolset based on the generator
 string(FIND "${CMAKE_GENERATOR}" "Visual Studio" substring_position)
@@ -59,24 +59,24 @@ endif()
 
 # Execute the configuration command
 execute_process(
-    COMMAND cmake -G ${CMAKE_GENERATOR} -S ${Utils_DIR} -B ${CMAKE_BINARY_DIR}/aocl-utils/build_dir -DALCI_EXAMPLES=OFF -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES} -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/aocl-utils/install_package ${CompilerToolSet}
-    WORKING_DIRECTORY ${Utils_DIR} 
+    COMMAND cmake -G ${CMAKE_GENERATOR} -S ${UTILS_DIR} -B ${CMAKE_BINARY_DIR}/aocl-utils/build_dir -DALCI_EXAMPLES=OFF -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES} -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/aocl-utils/install_package ${CompilerToolSet}
+    WORKING_DIRECTORY ${UTILS_DIR} 
     RESULT_VARIABLE result
     OUTPUT_VARIABLE output
     ERROR_VARIABLE error
 )
 if(result EQUAL 0)
-    file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "${output}.\n")
+    file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "${output}.\n")
     message(STATUS "AOCL-Utils library configuration completed successfully.")
 else()
-    file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "${error}.\n")
+    file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "${error}.\n")
     message(FATAL_ERROR "Error occured while AOCL-Utils library configuration!!!.\n${error}\n")
 endif()
 
 # Execute the build command
 execute_process(
     COMMAND cmake --build ${CMAKE_BINARY_DIR}/aocl-utils/build_dir --config ${CMAKE_BUILD_TYPE} --target install
-    WORKING_DIRECTORY ${Utils_DIR}
+    WORKING_DIRECTORY ${UTILS_DIR}
     RESULT_VARIABLE result
     OUTPUT_VARIABLE output
     ERROR_VARIABLE error
@@ -84,10 +84,10 @@ execute_process(
 
 # Check the result of the build process
 if(result EQUAL 0)
-    file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "${output}.\n")
+    file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "${output}.\n")
     message(STATUS "AOCL-Utils library built successfully.")
 else()
-    file(APPEND "${Utils_BUILD_LOG_FILE_PATH}" "${error}.\n")
+    file(APPEND "${UTILS_BUILD_LOG_FILE_PATH}" "${error}.\n")
     message(FATAL_ERROR "Error occured while AOCL-Utils library building!!!.\n${error}\n")
 endif()
 
