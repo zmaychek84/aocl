@@ -98,7 +98,7 @@ else()
     endif()
 endif()
 
-# Set BLIS configuration family and addons
+# Set AOCL-BLAS configuration family and addons
 set(BLIS_CONFIG_FAMILY "amdzen" CACHE STRING "Blis configuration family")
 set(ENABLE_ADDON "" CACHE STRING "Configure with specific addons using a ';'-separated list")
 

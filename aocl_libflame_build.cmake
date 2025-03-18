@@ -3,49 +3,49 @@
 # Set CMake policy
 cmake_policy(SET CMP0010 NEW)
 
-# Define variables for libFLAME path, repository, and build log file
-set(libFLAME_PATH "" CACHE STRING "Local path of the AOCL-libFLAME source code")
-set(libFLAME_GIT_REPOSITORY "https://github.com/amd/libflame.git" CACHE STRING "AOCL-LAPACK git repository path")
-set(libFLAME_GIT_TAG "master" CACHE STRING "Tag or Branch name of AOCL-LAPACK")
-set(libFLAME_DIR ${CMAKE_BINARY_DIR}/libflame)
-set(libFLAME_BUILD_LOG_FILE_PATH "${CMAKE_BINARY_DIR}/aocl_libflame_build.log")
+# Define variables for LAPACK path, repository, and build log file
+set(LAPACK_PATH "" CACHE STRING "Local path of the AOCL-LAPACK source code")
+set(LAPACK_GIT_REPOSITORY "https://github.com/amd/libflame.git" CACHE STRING "AOCL-LAPACK git repository path")
+set(LAPACK_GIT_TAG "master" CACHE STRING "Tag or Branch name of AOCL-LAPACK")
+set(LAPACK_DIR ${CMAKE_BINARY_DIR}/libflame)
+set(LAPACK_BUILD_LOG_FILE_PATH "${CMAKE_BINARY_DIR}/aocl_libflame_build.log")
 
 # Initialize build log file
-file(WRITE "${libFLAME_BUILD_LOG_FILE_PATH}" "=========================AOCL-libFLAME Build Logs=========================.\n")
+file(WRITE "${LAPACK_BUILD_LOG_FILE_PATH}" "=========================AOCL-LAPACK Build Logs=========================.\n")
 
-# Remove existing libFLAME directory if it exists
-if(EXISTS ${libFLAME_DIR})
+# Remove existing AOCL-LAPACK directory if it exists
+if(EXISTS ${LAPACK_DIR})
     execute_process(
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${libFLAME_DIR}
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${LAPACK_DIR}
     )
 endif()
 
-# Use local libFLAME source code if provided, otherwise clone from git repository
-if(libFLAME_PATH)
-    message(STATUS "Using AOCL-libFLAME source code from ${libFLAME_PATH}.")
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "Using AOCL-libFLAME source code from ${libFLAME_PATH}.\n")
-    string(REPLACE "\\" "/" libFLAME_DIR "${libFLAME_PATH}/libflame")
+# Use local AOCL-LAPACK source code if provided, otherwise clone from git repository
+if(LAPACK_PATH)
+    message(STATUS "Using AOCL-LAPACK source code from ${LAPACK_PATH}.")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "Using AOCL-LAPACK source code from ${LAPACK_PATH}.\n")
+    string(REPLACE "\\" "/" LAPACK_DIR "${LAPACK_PATH}/libflame")
 else()
     execute_process(
-        COMMAND git clone ${libFLAME_GIT_REPOSITORY} -b ${libFLAME_GIT_TAG} libflame 
+        COMMAND git clone ${LAPACK_GIT_REPOSITORY} -b ${LAPACK_GIT_TAG} libflame 
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         RESULT_VARIABLE result
         OUTPUT_VARIABLE output
         ERROR_VARIABLE error
     )
     if(result EQUAL 0)
-        file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${output}.\n")
+        file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${output}.\n")
     else()
-        file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${error}.\n")
+        file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${error}.\n")
     endif()
 endif()
 
-# Log the libFLAME path
-message(STATUS "libFLAME_PATH: ${libFLAME_DIR}.")
-file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "libFLAME_PATH: ${libFLAME_DIR}.\n")
+# Log the AOCL-LAPACK path
+message(STATUS "LAPACK_PATH: ${LAPACK_DIR}.")
+file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "LAPACK_PATH: ${LAPACK_DIR}.\n")
 
 # Log the start of the configuration and build process
-message(STATUS "\"The configuration and build process for the AOCL-LAPACK library has started, and logs are being redirected to ${libFLAME_BUILD_LOG_FILE_PATH}.\"")
+message(STATUS "\"The configuration and build process for the AOCL-LAPACK library has started, and logs are being redirected to ${LAPACK_BUILD_LOG_FILE_PATH}.\"")
 
 # Determine the OpenMP compiler flag based on the compiler
 string(FIND "${CMAKE_C_COMPILER}" "gcc" compiler_position)
@@ -96,11 +96,11 @@ else()
 endif()
 
 # Log the configuration command
-file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "CONFIGURATION COMMAND: cmake -G \"${CMAKE_GENERATOR}\" -S ${libFLAME_DIR} -B ${CMAKE_BINARY_DIR}/libflame/build_dir -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} -DENABLE_ILP64=${ENABLE_ILP64} -DENABLE_BLAS_EXT_GEMMT=${ENABLE_BLAS_EXT_GEMMT} -DLIBAOCLUTILS_INCLUDE_PATH=${CMAKE_BINARY_DIR}/aocl-utils/install_package/include -DENABLE_MULTITHREADING=${ENABLE_MULTITHREADING} -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libflame/install_package ${CompilerToolSet} ${PLATFORM_SPECIFIC_OPTIONS} ${ENABLE_AOCL_BLAS}.\n")
+file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "CONFIGURATION COMMAND: cmake -G \"${CMAKE_GENERATOR}\" -S ${LAPACK_DIR} -B ${CMAKE_BINARY_DIR}/libflame/build_dir -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} -DENABLE_ILP64=${ENABLE_ILP64} -DENABLE_BLAS_EXT_GEMMT=${ENABLE_BLAS_EXT_GEMMT} -DLIBAOCLUTILS_INCLUDE_PATH=${CMAKE_BINARY_DIR}/aocl-utils/install_package/include -DENABLE_MULTITHREADING=${ENABLE_MULTITHREADING} -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libflame/install_package ${CompilerToolSet} ${PLATFORM_SPECIFIC_OPTIONS} ${ENABLE_AOCL_BLAS}.\n")
 
 # Execute the configuration command
 execute_process(
-    COMMAND cmake -G ${CMAKE_GENERATOR} -S ${libFLAME_DIR} -B ${CMAKE_BINARY_DIR}/libflame/build_dir 
+    COMMAND cmake -G ${CMAKE_GENERATOR} -S ${LAPACK_DIR} -B ${CMAKE_BINARY_DIR}/libflame/build_dir 
     -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES} 
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} 
     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} 
@@ -111,16 +111,16 @@ execute_process(
     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libflame/install_package 
     ${CompilerToolSet} ${ENABLE_AOCL_BLAS} 
     ${PLATFORM_SPECIFIC_OPTIONS}
-    WORKING_DIRECTORY ${libFLAME_DIR} 
+    WORKING_DIRECTORY ${LAPACK_DIR} 
     RESULT_VARIABLE result
     OUTPUT_VARIABLE output
     ERROR_VARIABLE error
 )
 if(result EQUAL 0)
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${output}.\n")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${output}.\n")
     message(STATUS "AOCL-LAPACK library configuration completed successfully.")
 else()
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${error}.\n")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${error}.\n")
     message(FATAL_ERROR "Error occured while AOCL-LAPACK library configuration!!!.\n${error}\n")
 endif()
 
@@ -135,10 +135,10 @@ execute_process(
 
 # Check the result of the build process
 if(result EQUAL 0)
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${output}.\n")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${output}.\n")
     message(STATUS "AOCL-LAPACK library built successfully.")
 else()
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${error}.\n")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${error}.\n")
     message(FATAL_ERROR "Error occured while AOCL-LAPACK library building!!!.\n${error}\n")
 endif()
 
@@ -151,10 +151,10 @@ execute_process(
     ERROR_VARIABLE error
 )
 if(result EQUAL 0)
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${output}.\n")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${output}.\n")
     message(STATUS "AOCL-LAPACK library installed successfully.")
 else()
-    file(APPEND "${libFLAME_BUILD_LOG_FILE_PATH}" "${error}.\n")
+    file(APPEND "${LAPACK_BUILD_LOG_FILE_PATH}" "${error}.\n")
     message(FATAL_ERROR "Error occured while AOCL-LAPACK library installing!!!.\n${error}\n")
 endif()
 
@@ -170,15 +170,15 @@ else()
 endif()
 
 # Collect object files and append to the list
-string(REPLACE "\\" "/" libflame_build_path "${CMAKE_BINARY_DIR}/libflame/build_dir")
-file(GLOB_RECURSE libflame_obj_files LIST_DIRECTORIES false ${libflame_build_path}/*\.${suff})
+string(REPLACE "\\" "/" aocl_lapack_build_path "${CMAKE_BINARY_DIR}/libflame/build_dir")
+file(GLOB_RECURSE aocl_lapack_obj_files LIST_DIRECTORIES false ${aocl_lapack_build_path}/*\.${suff})
 if(substring_position EQUAL -1)
-    string(REPLACE "\\" "/" libflame_deffile_path "${CMAKE_BINARY_DIR}/libflame/build_dir/CMakeFiles/AOCL-LibFLAME-Win.dir/exports.def")
+    string(REPLACE "\\" "/" aocl_lapack_deffile_path "${CMAKE_BINARY_DIR}/libflame/build_dir/CMakeFiles/AOCL-LibFLAME-Win.dir/exports.def")
 else()
-    string(REPLACE "\\" "/" libflame_deffile_path "${CMAKE_BINARY_DIR}/libflame/build_dir/AOCL-LibFLAME-Win.dir/${CMAKE_BUILD_TYPE}/exports.def")
+    string(REPLACE "\\" "/" aocl_lapack_deffile_path "${CMAKE_BINARY_DIR}/libflame/build_dir/AOCL-LibFLAME-Win.dir/${CMAKE_BUILD_TYPE}/exports.def")
 endif()
-list(APPEND DEF_FILES ${libflame_deffile_path})
-list(APPEND OBJECT_FILES ${libflame_obj_files})
+list(APPEND DEF_FILES ${aocl_lapack_deffile_path})
+list(APPEND OBJECT_FILES ${aocl_lapack_obj_files})
 
-# Install the libFLAME headers
+# Install the AOCL-LAPACK headers
 install(DIRECTORY ${CMAKE_BINARY_DIR}/libflame/install_package/include/ DESTINATION include)

@@ -1,6 +1,8 @@
 # AOCL
 
-This repository provides a simple build system for building individual AOCL libraries and creating a single binary for integration. The purpose of this project is to optimize CPU libraries for AMD processors.
+Build-It-Yourself AOCL Project provides a simple build system for building individual AOCL libraries and creating a unified binary for integration. The purpose of this project is to have a single point of entry for all AOCL libraries and make the integration seamless.
+
+This Build-It-Yourself AOCL will provide a CMake system to build AOCL-BLAS, AOCL-Utils, AOCL-LAPACK, AOCL-SPARSE, AOCL-LIBM, AOCL-COMPRESSION, and AOCL-Cryptography libraries and finally create the AOCL unified library in the name of `libaocl.so`/`libaocl.a` in Linux and `aocl.lib`/`aocl.dll` in Windows. The user can choose which AOCL libraries need to be included in the build and binary creation via CMake configure options.
 
 **NOTE:**
 This library will have one or more individual AOCL libraries based on user configurations. This repository will help users configure which libraries are part of the AOCL unified library.
