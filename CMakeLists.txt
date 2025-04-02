@@ -229,7 +229,7 @@ if(ENABLE_AOCL_CRYPTO)
 endif()
 
 # Merge def files on Windows
-if(WIN32)
+if(BUILD_SHARED_LIBS AND WIN32)
     string(REPLACE "\\" "/" MERGED_DEF "${CMAKE_BINARY_DIR}/exports.def")
     file(WRITE ${MERGED_DEF} "")
     foreach(DEF_FILE IN LISTS DEF_FILES)
