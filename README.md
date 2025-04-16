@@ -10,15 +10,50 @@ integration by eliminating dependencies on library linking order and
 preventing API duplication, ensuring smooth and efficient incorporation
 of multiple AOCL libraries.
 
-:::: note
-::: title
-Note
-:::
+**Note**
 
 Currently, Build-It-Yourself supports selection of AOCL-BLAS,
 AOCL-Utils, AOCL-LAPACK, AOCL-Sparse, AOCL-LibM, AOCL-Compression, and
 AOCL-Cryptography libraries only.
-::::
+
+## Table of Contents
+
+- [AOCL Build-It-Yourself](#aocl-build-it-yourself)
+  - [Table of Contents](#table-of-contents)
+  - [Project structure](#project-structure)
+  - [Configure Build-It-Yourself](#configure-build-it-yourself)
+    - [Linux Prerequisites](#linux-prerequisites)
+    - [Windows Prerequisites](#windows-prerequisites)
+    - [Clone the Repository](#clone-the-repository)
+    - [Configure the Build Options](#configure-the-build-options)
+    - [Build the Unified Binary](#build-the-unified-binary)
+  - [Examples of Configuration and Build Commands using CMake Presets](#examples-of-configuration-and-build-commands-using-cmake-presets)
+    - [Introduction](#introduction)
+    - [On Linux](#on-linux)
+      - [Single-Thread AOCL](#single-thread-aocl)
+      - [Multi-Thread AOCL](#multi-thread-aocl)
+    - [On Windows](#on-windows)
+  - [Verifying AOCL Installation](#verifying-aocl-installation)
+  - [CMake Variables Reference](#cmake-variables-reference)
+    - [CMake Options to Select Libraries](#cmake-options-to-select-libraries)
+    - [CMake Options to Set Library Source Path](#cMake-options-to-set-library-source-path)
+    - [CMake Options to Set GIT Repository and Tag/Branch](#cmake-options-to-set-git-repository-and-tagbranch)
+
+## Project Structure
+
+The project is structured as follows:
+
+- `aocl_blis_build.cmake`: CMake script for building AOCL-BLAS.
+- `aocl_compression_build.cmake`: CMake script for building AOCL-COMPRESSION.
+- `aocl_crypto_build.cmake`: CMake script for building AOCL-CRYPTO.
+- `aocl_libflame_build.cmake`: CMake script for building AOCL-LAPACK.
+- `aocl_libm_build.cmake`: CMake script for building AOCL-LIBM.
+- `aocl_sparse_build.cmake`: CMake script for building AOCL-SPARSE.
+- `aocl_utils_build.cmake`: CMake script for building AOCL-UTILS.
+- `CMakeLists.txt`: Main CMake script for the AOCL project.
+- `CMakePresets.json`: CMake presets for different build configurations.
+- `README.md`: This README file.
+- `presets/`: Directory containing preset configurations for different platforms.
 
 ## Configure Build-It-Yourself
 
@@ -59,10 +94,7 @@ The following dependencies must be met for installing AOCL on Linux:
     $ export OPENSSL_INSTALL_DIR=/home/user/openssl
     ```
 
-:::: note
-::: title
-Note
-:::
+**Note**
 
 To build the AOCL-Cryptography library, the `libcrypto.so` and
 `libssl.so` libraries are required. Set the `OPENSSL_INSTALL_DIR`
@@ -70,7 +102,6 @@ environment variable to the path where OpenSSL is installed. Ensure this
 directory includes the `include` folder and either `lib` or `lib64`.
 Within the `lib` or `lib64` folder, verify that the `libcrypto.so` and
 `libssl.so` libraries are present.
-::::
 
 ### Windows Prerequisites
 
@@ -99,10 +130,7 @@ The following dependencies must be met for building AOCL on Windows:
     $ set OPENSSL_INSTALL_DIR=C:/Program Files/OpenSSL-Win64
     ```
 
-:::: note
-::: title
-Note
-:::
+**Note**
 
 To build the AOCL-Cryptography library, the `libcrypto.lib` and
 `libssl.lib` libraries are required. Set the `OPENSSL_INSTALL_DIR`
@@ -110,14 +138,10 @@ environment variable to the directory where OpenSSL is installed. Make
 sure this directory includes the `include` and `lib` folders. Within the
 `lib` folder, ensure that the `libcrypto.lib` and `libssl.lib` libraries
 are present.
-::::
-
-For more information about Windows prerequisites, refer to the
-Prerequisites in section `blas-build-win`{.interpreted-text role="ref"}.
 
 For more information on validated versions of compiler/LLVM, CMake and
-Python, and OpenSSL libraries refer to
-`Validation Matrix`{.interpreted-text role="ref"}.
+Python, and OpenSSL libraries refer to `Validation Matrix` chapter in 
+AOCL userguide document.
 
 To set up and use Build-It-Yourself, you must clone the repository,
 configure the build options, and build the unified binary.
@@ -137,22 +161,22 @@ There are multiple CMake options you can configure. The following
 sections explain the CMake options to:
 
 1.  Include or exclude individual AOCL libraries (see
-    `select-aocl-libraries`{.interpreted-text role="ref"}).
+    [CMake Options to Select Libraries](#cmake-options-to-select-libraries)).
 2.  Provide the source code for the selected libraries by using one of
     the following options:
-    a.  Setting the path of the AOCL libraries source code (see
-        `cmake-path-options`{.interpreted-text role="ref"})
-    b.  Setting the GIT repository and tag or branch name (see
-        `cmake-options-for-git-clone`{.interpreted-text role="ref"})
+    1.  Setting the path of the AOCL libraries source code (see
+        [CMake Options to Set Library Source Path](#cMake-options-to-set-library-source-path))
+    2.  Setting the GIT repository and tag or branch name (see
+        [CMake Options to Set GIT Repository and Tag/Branch](#cmake-options-to-set-git-repository-and-tagbranch))
 3.  Static or Shared Library:
-    a.  Static Library `-DBUILD_SHARED_LIBS=OFF`
-    b.  Shared Library `-DBUILD_SHARED_LIBS=ON` (default)
+    1.  Static Library `-DBUILD_SHARED_LIBS=OFF`
+    2.  Shared Library `-DBUILD_SHARED_LIBS=ON` (default)
 4.  Select Data Type (LP64 or ILP64):
-    a.  LP64 `-DENABLE_ILP64=OFF` (default)
-    b.  ILP64 `-DENABLE_ILP64=ON`
+    1.  LP64 `-DENABLE_ILP64=OFF` (default)
+    2.  ILP64 `-DENABLE_ILP64=ON`
 5.  Enable or disable threading:
-    a.  Multithreading `-DENABLE_MULTITHREADING=ON`
-    b.  Single threading `-DENABLE_MULTITHREADING=OFF` (default)
+    1.  Multithreading `-DENABLE_MULTITHREADING=ON`
+    2.  Single threading `-DENABLE_MULTITHREADING=OFF` (default)
 6.  Link Desired OpenMP library using
     `-DOpenMP_libomp_LIBRARY=<path to OpenMP library>` when,
     `-DENABLE_MULTITHREADING=ON`.
@@ -193,18 +217,18 @@ The AOCL project provides a set of CMake presets to simplify the
 configuration and build process for different platforms and compilers.
 Some of these presets are:
 
--   **aocl-linux-make-lp-ga-gcc-config**: Linux with GNU Make and GCC
--   **aocl-linux-make-ilp-ga-gcc-config**: Linux with GNU Make and GCC
+1.   **aocl-linux-make-lp-ga-gcc-config**: Linux with GNU Make and GCC
+2.   **aocl-linux-make-ilp-ga-gcc-config**: Linux with GNU Make and GCC
     (ILP64)
--   **aocl-linux-make-lp-ga-aocc-config**: Linux with GNU Make and AOCC
--   **aocl-linux-make-ilp-ga-aocc-config**: Linux with GNU Make and AOCC
+3.   **aocl-linux-make-lp-ga-aocc-config**: Linux with GNU Make and AOCC
+4.   **aocl-linux-make-ilp-ga-aocc-config**: Linux with GNU Make and AOCC
     (ILP64)
--   **aocl-win-msvc-lp-ga-config**: Windows with Visual Studio and
+5.   **aocl-win-msvc-lp-ga-config**: Windows with Visual Studio and
     Clang/LLVM
--   **aocl-win-msvc-ilp-ga-config**: Windows with Visual Studio and
+6.   **aocl-win-msvc-ilp-ga-config**: Windows with Visual Studio and
     Clang/LLVM (ILP64)
--   **aocl-win-ninja-lp-ga-config**: Windows with Ninja and Clang/LLVM
--   **aocl-win-ninja-ilp-ga-config**: Windows with Ninja and Clang/LLVM
+7.   **aocl-win-ninja-lp-ga-config**: Windows with Ninja and Clang/LLVM
+8.   **aocl-win-ninja-ilp-ga-config**: Windows with Ninja and Clang/LLVM
     (ILP64)
 
 Details of **aocl-linux-make-lp-ga-gcc-config** are given here.
@@ -290,14 +314,10 @@ customization based on specific requirements.
 The following sections provide examples of configuration and build
 commands on Linux using the CMake build system.
 
-:::: note
-::: title
-Note
-:::
+**Note**
 
 Use the [-DOpenMP_libomp_LIBRARY]{.title-ref} option to link the desired
 OpenMP library.
-::::
 
 #### Single-Thread AOCL
 
@@ -436,83 +456,41 @@ customization of the build process, including selecting libraries and
 specifying source paths. Use these options to tailor the unified AOCL
 binary to specific requirements.
 
-### CMake Options to Select Libraries {#select-aocl-libraries}
+### CMake Options to Select Libraries
 
 The following table lists the CMake variables used to include or exclude
 individual AOCL libraries.
 
-+------------------------+---------------------------------------------+
-| | CMake Variable or    | | Usage                                     |
-|   Option               |                                             |
-+========================+=============================================+
-| |                      | | `-DENABLE_AOCL_UTILS=ON` (default) or     |
-|  **ENABLE_AOCL_UTILS** | | `-DENABLE_AOCL_UTILS=OFF` to exclude from |
-|                        |   the library.                              |
-+------------------------+---------------------------------------------+
-| | **ENABLE_AOCL_BLAS** | | `-DENABLE_AOCL_BLAS=OFF` (default) or     |
-|                        | | `-DENABLE_AOCL_BLAS=ON` to include in the |
-|                        |   library.                                  |
-+------------------------+---------------------------------------------+
-| |                      | | `-DENABLE_AOCL_LAPACK=OFF` (default) or   |
-| **ENABLE_AOCL_LAPACK** | | `-DENABLE_AOCL_LAPACK=ON` to include in   |
-|                        |   the library.                              |
-+------------------------+---------------------------------------------+
-| |                      | | `-DENABLE_AOCL_SPARSE=OFF` (default) or   |
-| **ENABLE_AOCL_SPARSE** | | `-DENABLE_AOCL_SPARSE=ON` to include in   |
-|                        |   the library.                              |
-+------------------------+---------------------------------------------+
-| |                      | | `-DENABLE_AOCL_CRYPTO=OFF` (default) or   |
-| **ENABLE_AOCL_CRYPTO** | | `-DENABLE_AOCL_CRYPTO=ON` to include in   |
-|                        |   the library.                              |
-+------------------------+---------------------------------------------+
-| | **ENABLE_AOCL_LIBM** | | `-DENABLE_AOCL_LIBM=OFF` (default) or     |
-|                        | | `-DENABLE_AOCL_LIBM=ON` to include in the |
-|                        |   library.                                  |
-+------------------------+---------------------------------------------+
-| | **ENA                | | `-DENABLE_AOCL_COMPRESSION=OFF` (default) |
-| BLE_AOCL_COMPRESSION** |   or                                        |
-|                        | | `-DENABLE_AOCL_COMPRESSION=ON` to include |
-|                        |   in the library.                           |
-+------------------------+---------------------------------------------+
+| CMake Variable or Option  | Usage |
+|---------------------------|---------------------------------------------------------------|
+| **ENABLE_AOCL_UTILS**     | `-DENABLE_AOCL_UTILS=ON` (default) or `-DENABLE_AOCL_UTILS=OFF` to exclude from the library. |
+| **ENABLE_AOCL_BLAS**      | `-DENABLE_AOCL_BLAS=OFF` (default) or `-DENABLE_AOCL_BLAS=ON` to include in the library. |
+| **ENABLE_AOCL_LAPACK**    | `-DENABLE_AOCL_LAPACK=OFF` (default) or `-DENABLE_AOCL_LAPACK=ON` to include in the library. |
+| **ENABLE_AOCL_SPARSE**    | `-DENABLE_AOCL_SPARSE=OFF` (default) or `-DENABLE_AOCL_SPARSE=ON` to include in the library. |
+| **ENABLE_AOCL_CRYPTO**    | `-DENABLE_AOCL_CRYPTO=OFF` (default) or `-DENABLE_AOCL_CRYPTO=ON` to include in the library. |
+| **ENABLE_AOCL_LIBM**      | `-DENABLE_AOCL_LIBM=OFF` (default) or `-DENABLE_AOCL_LIBM=ON` to include in the library. |
+| **ENABLE_AOCL_COMPRESSION** | `-DENABLE_AOCL_COMPRESSION=OFF` (default) or `-DENABLE_AOCL_COMPRESSION=ON` to include in the library. |
 
-: **CMake Variables to Select Libraries**
 
-### CMake Options to Set Library Source Path {#cmake-path-options}
+### CMake Options to Set Library Source Path
 
 The following table lists CMake variables to specify the path of AOCL
 library sources. These variables are useful when local copies of the
 repositories are available, particularly in environments without
 internet access.
 
-+------------------------+---------------------------------------------+
-| | CMake Variable or    | | Usage                                     |
-|   Option               |                                             |
-+========================+=============================================+
-| | **UTILS_PATH**       | | `-DUTILS_PATH=<Di                         |
-|                        | rectory Path where AOCL-Utils is present>`. |
-+------------------------+---------------------------------------------+
-| | **BLAS_PATH**        | | `-DBLAS_PATH=<D                           |
-|                        | irectory Path where AOCL-BLAS is present>`. |
-+------------------------+---------------------------------------------+
-| | **LAPACK_PATH**      | | `-DLAPACK_PATH=<Dir                       |
-|                        | ectory Path where AOCL-LAPACK is present>`. |
-+------------------------+---------------------------------------------+
-| | **SPARSE_PATH**      | | `-DSPARSE_PATH=<Dir                       |
-|                        | ectory Path where AOCL-Sparse is present>`. |
-+------------------------+---------------------------------------------+
-| | **CRYPTO_PATH**      | | `-DCRYPTO_PATH=<Directory                 |
-|                        |  Path where AOCL-Cryptography is present>`. |
-+------------------------+---------------------------------------------+
-| | **LIBM_PATH**        | | `-DLIBM_PATH=<D                           |
-|                        | irectory Path where AOCL-LibM is present>`. |
-+------------------------+---------------------------------------------+
-| | **COMPRESSION_PATH** | | `-DCOMPRESSION_PATH=<Director             |
-|                        | y Path where AOCL-Compression is present>`. |
-+------------------------+---------------------------------------------+
+| CMake Variable or Option  | Usage |
+|---------------------------|---------------------------------------------------------------|
+| **UTILS_PATH**           | `-DUTILS_PATH=<Directory Path where AOCL-Utils is present>`. |
+| **BLAS_PATH**            | `-DBLAS_PATH=<Directory Path where AOCL-BLAS is present>`. |
+| **LAPACK_PATH**          | `-DLAPACK_PATH=<Directory Path where AOCL-LAPACK is present>`. |
+| **SPARSE_PATH**          | `-DSPARSE_PATH=<Directory Path where AOCL-Sparse is present>`. |
+| **CRYPTO_PATH**          | `-DCRYPTO_PATH=<Directory Path where AOCL-Cryptography is present>`. |
+| **LIBM_PATH**            | `-DLIBM_PATH=<Directory Path where AOCL-LibM is present>`. |
+| **COMPRESSION_PATH**     | `-DCOMPRESSION_PATH=<Directory Path where AOCL-Compression is present>`. |
 
-: **CMake Variables for Library Source Path**
 
-### CMake Options to Set GIT Repository and Tag/Branch {#cmake-options-for-git-clone}
+### CMake Options to Set GIT Repository and Tag/Branch
 
 The following table lists CMake variables to specify the GIT repository
 and tag or branch name for cloning individual AOCL libraries. If the
@@ -522,102 +500,20 @@ from the `dev` branch of individual libraries. If neither the source
 code path nor the GIT repository and tag are provided, CMake defaults to
 the repository and branch/tag for the AOCL stable public release.
 
-+--------------------------+-------------------------------------------+
-| | CMake Variable or      | | Default Value                           |
-|   Option                 | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | Usage                                   |
-+==========================+===========================================+
-| |                        | | <https://github.com/amd/aocl-utils.git> |
-| **UTILS_GIT_REPOSITORY** | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DUTILS_GIT_REPOSITORY=\<AOCL-Utils     |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| | **UTILS_GIT_TAG**      | | main                                    |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DUTILS_GIT_TAG=\<AOCL-Utils Git Tag or |
-|                          |   Branch Name\>                           |
-+--------------------------+-------------------------------------------+
-| |                        | | <https://github.com/amd/blis.git>       |
-|  **BLAS_GIT_REPOSITORY** | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DBLAS_GIT_REPOSITORY=\<AOCL-BLAS       |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| | **BLAS_GIT_TAG**       | | master                                  |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DBLAS_GIT_TAG=\<AOCL-BLAS Git Tag or   |
-|                          |   Branch Name\>                           |
-+--------------------------+-------------------------------------------+
-| | *                      | | <https://github.com/amd/libflame.git>   |
-| *LAPACK_GIT_REPOSITORY** | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DLAPACK_GIT_REPOSITORY=\<AOCL-LAPACK   |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| | **LAPACK_GIT_TAG**     | | master                                  |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DLAPACK_GIT_TAG=\<AOCL-LAPACK Git Tag  |
-|                          |   or Branch Name\>                        |
-+--------------------------+-------------------------------------------+
-| | *                      | |                                         |
-| *SPARSE_GIT_REPOSITORY** |  <https://github.com/amd/aocl-sparse.git> |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DSPARSE_GIT_REPOSITORY=\<AOCL-Sparse   |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| | **SPARSE_GIT_TAG**     | | master                                  |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DSPARSE_GIT_TAG=\<AOCL-Sparse Git Tag  |
-|                          |   or Branch Name\>                        |
-+--------------------------+-------------------------------------------+
-| | *                      | |                                         |
-| *CRYPTO_GIT_REPOSITORY** |  <https://github.com/amd/aocl-crypto.git> |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -D                                      |
-|                          | CRYPTO_GIT_REPOSITORY=\<AOCL-Cryptography |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| | **CRYPTO_GIT_TAG**     | | main                                    |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DCRYPTO_GIT_TAG=\<AOCL-Cryptography    |
-|                          |   Git Tag or Branch Name\>                |
-+--------------------------+-------------------------------------------+
-| |                        | | <                                       |
-|  **LIBM_GIT_REPOSITORY** | https://github.com/amd/aocl-libm-ose.git> |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DLIBM_GIT_REPOSITORY=\<AOCL-LibM       |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| | **LIBM_GIT_TAG**       | | master                                  |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DLIBM_GIT_TAG=\<AOCL-LibM Git Tag or   |
-|                          |   Branch Name\>                           |
-+--------------------------+-------------------------------------------+
-| | **COMP                 | | <htt                                    |
-| RESSION_GIT_REPOSITORY** | ps://github.com/amd/aocl-compression.git> |
-|                          | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | | -DCOMP                                  |
-|                          | RESSION_GIT_REPOSITORY=\<AOCL-Compression |
-|                          |   Repository URL\>                        |
-+--------------------------+-------------------------------------------+
-| |                        | | amd-main                                |
-|  **COMPRESSION_GIT_TAG** | | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-          |
-|                          | \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- |
-|                          | |                                         |
-|                          |  -DCOMPRESSION_GIT_TAG=\<AOCL-Compression |
-|                          |   Git Tag or Branch Name\>                |
-+--------------------------+-------------------------------------------+
+| CMake Variable or Option    | Default Value                                      | Usage |
+|-----------------------------|----------------------------------------------------|-----------------------------------------------------------|
+| **UTILS_GIT_REPOSITORY**    | <https://github.com/amd/aocl-utils.git>            | `-DUTILS_GIT_REPOSITORY=<AOCL-Utils Repository URL>` |
+| **UTILS_GIT_TAG**           | `main`                                             | `-DUTILS_GIT_TAG=<AOCL-Utils Git Tag or Branch Name>` |
+| **BLAS_GIT_REPOSITORY**     | <https://github.com/amd/blis.git>                  | `-DBLAS_GIT_REPOSITORY=<AOCL-BLAS Repository URL>` |
+| **BLAS_GIT_TAG**            | `master`                                           | `-DBLAS_GIT_TAG=<AOCL-BLAS Git Tag or Branch Name>` |
+| **LAPACK_GIT_REPOSITORY**   | <https://github.com/amd/libflame.git>              | `-DLAPACK_GIT_REPOSITORY=<AOCL-LAPACK Repository URL>` |
+| **LAPACK_GIT_TAG**          | `master`                                           | `-DLAPACK_GIT_TAG=<AOCL-LAPACK Git Tag or Branch Name>` |
+| **SPARSE_GIT_REPOSITORY**   | <https://github.com/amd/aocl-sparse.git>           | `-DSPARSE_GIT_REPOSITORY=<AOCL-Sparse Repository URL>` |
+| **SPARSE_GIT_TAG**          | `master`                                           | `-DSPARSE_GIT_TAG=<AOCL-Sparse Git Tag or Branch Name>` |
+| **CRYPTO_GIT_REPOSITORY**   | <https://github.com/amd/aocl-crypto.git>           | `-DCRYPTO_GIT_REPOSITORY=<AOCL-Cryptography Repository URL>` |
+| **CRYPTO_GIT_TAG**          | `main`                                             | `-DCRYPTO_GIT_TAG=<AOCL-Cryptography Git Tag or Branch Name>` |
+| **LIBM_GIT_REPOSITORY**     | <https://github.com/amd/aocl-libm-ose.git>         | `-DLIBM_GIT_REPOSITORY=<AOCL-LibM Repository URL>` |
+| **LIBM_GIT_TAG**            | `master`                                           | `-DLIBM_GIT_TAG=<AOCL-LibM Git Tag or Branch Name>` |
+| **COMPRESSION_GIT_REPOSITORY** | <https://github.com/amd/aocl-compression.git>   | `-DCOMPRESSION_GIT_REPOSITORY=<AOCL-Compression Repository URL>` |
+| **COMPRESSION_GIT_TAG**     | `amd-main`                                         | `-DCOMPRESSION_GIT_TAG=<AOCL-Compression Git Tag or Branch Name>` |
 
-: **CMake Variables for GIT Repository and Tag/Branch**
